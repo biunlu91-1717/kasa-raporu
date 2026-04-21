@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasa Raporu Sistemi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header p {
+            opacity: 0.9;
+            margin: 10px 0 0 0;
+        }
+        .content {
+            padding: 30px;
+        }
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="text"], input[type="number"], input[type="datetime-local"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .kasa-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .kasa-table th {
+            background: #2a5298;
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .kasa-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .kasa-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .kasa-table tr:hover {
+            background: #f0f4ff;
+        }
+        .kasa-table input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .total-row {
+            background: #e8f4ff !important;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .total-row td {
+            padding: 18px 15px;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 180px;
+        }
+        .btn-save {
+            background: linear-gradient(90deg, #00b09b, #96c93d);
+            color: white;
+        }
+        .btn-calculate {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-clear {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            color: white;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.2);
+        }
+        .summary {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            color: white;
+        }
+        .summary h3 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .summary-item h4 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .summary-item p {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .instructions {
+            background: #fff9e6;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .instructions ul {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            .kasa-table {
+                font-size: 14px;
+            }
+            .kasa-table input {
+                font-size: 13px;
+                padding: 8px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 KASA RAPOR SİSTEMİ</h1>
+            <p>16 Ekip • Devralma Raporu • Otomatik Hesaplama</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="raporTarihi">📅 Rapor Tarihi</label>
+                        <input type="date" id="raporTarihi" value="2026-04-21">
+                    </div>
+                    <div class="form-group">
+                        <label for="raporSaati">🕐 Rapor Saati (Devralma)</label>
+                        <input type="time" id="raporSaati" value="14:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="hazirlayan">👤 Hazırlayan</label>
+                        <input type="text" id="hazirlayan" placeholder="Adınız Soyadınız" value="Kevin X2">
+                    </div>
+                    <div class="form-group">
+                        <label for="vardiya">🌓 Vardiya</label>
+                        <select id="vardiya" style="width:100%; padding:12px 15px; border-radius:10px; border:2px solid #ddd; font-size:16px;">
+                            <option value="gunduz">Gündüz (08:00-20:00)</option>
+                            <option value="gece">Gece (20:00-08:00)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h2>💰 EKİP KASA DURUMU</h2>
+            <table class="kasa-table" id="kasaTable">
+                <thead>
+                    <tr>
+                        <th width="200">Ekip Adı</th>
+                        <th width="200">Net Kasa (₺)</th>
+                        <th width="200">Kullanılabilir (₺)</th>
+                        <th width="200">Bloke (₺)</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rows will be generated by JavaScript -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td><strong>TOPLAM</strong></td>
+                        <td id="totalNet">0 ₺</td>
+                        <td id="totalKullanilabilir">0 ₺</td>
+                        <td id="totalBloke">0 ₺</td>
+                        <td id="totalAciklama"></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="summary">
+                <h3>📈 ÖZET ANALİZ</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <h4>Toplam Net Kasa</h4>
+                        <p id="summaryNet">0 ₺</p>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Kullanılabilir Oranı</h4>
+                        <p id="summaryKullanilabilirOrani">%0</p>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Bloke Oranı</h4>
+                        <p id="summaryBlokeOrani">%0</p>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Likidite Durumu</h4>
+                        <p id="summaryLikidite">NORMAL</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn-calculate" onclick="calculateTotals()">🧮 TOPLAMLARI HESAPLA</button>
+                <button class="btn-save" onclick="saveReport()">💾 RAPORU KAYDET</button>
+                <button class="btn-clear" onclick="clearForm()">🗑️ FORMU TEMİZLE</button>
+            </div>
+
+            <div class="instructions">
+                <h3>📝 KULLANIM TALİMATLARI</h3>
+                <ul>
+                    <li><strong>Net Kasa</strong> = Kullanılabilir + Bloke (otomatik kontrol edilir)</li>
+                    <li><strong>TOPLAM</strong> satırı otomatik hesaplanır (hesapla butonuna tıkla)</li>
+                    <li><strong>Kaydet</strong> butonu raporu metin dosyası olarak indirir</li>
+                    <li><strong>Bloke oranı >%30</strong> ise likidite riski oluşur</li>
+                    <li>Her hücreye tıklayıp veri girebilirsiniz</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ekip listesi
+        const ekipler = [
+            'berlin', 'boca', 'datça', 'heaven', 'kale', 
+            'lüksemburg', 'mater', 'mayk', 'paris', 'raptor', 
+            'rio', 'suriçi', 'suriçiv2', 'tokyo', 'vadi', 'şırnak'
+        ];
+
+        // Tabloyu oluştur
+        function createTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            ekipler.forEach(ekip => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${ekip}</strong></td>
+                    <td><input type="number" min="0" step="1000" class="net-input" data-ekip="${ekip}" placeholder="0" onchange="checkRow('${ekip}')"></td>
+                    <td><input type="number" min="0" step="1000" class="kullanilabilir-input" data-ekip="${ekip}" placeholder="0" onchange="checkRow('${ekip}')"></td>
+                    <td><input type="number" min="0" step="1000" class="bloke-input" data-ekip="${ekip}" placeholder="0" onchange="checkRow('${ekip}')"></td>
+                    <td><input type="text" class="aciklama-input" data-ekip="${ekip}" placeholder="Açıklama..."></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Satır kontrolü
+        function checkRow(ekip) {
+            const netInput = document.querySelector(`.net-input[data-ekip="${ekip}"]`);
+            const kullanilabilirInput = document.querySelector(`.kullanilabilir-input[data-ekip="${ekip}"]`);
+            const blokeInput = document.querySelector(`.bloke-input[data-ekip="${ekip}"]`);
+            
+            const net = parseFloat(netInput.value) || 0;
+            const kullanilabilir = parseFloat(kullanilabilirInput.value) || 0;
+            const bloke = parseFloat(blokeInput.value) || 0;
+            
+            // Net = Kullanılabilir + Bloke kontrolü
+            if (net > 0 && Math.abs(net - (kullanilabilir + bloke)) > 1) {
+                netInput.style.borderColor = '#ff416c';
+                netInput.style.backgroundColor = '#fff0f3';
+            } else {
+                netInput.style.borderColor = '';
+                netInput.style.backgroundColor = '';
+            }
+        }
+
+        // Toplamları hesapla
+        function calculateTotals() {
+            let totalNet = 0;
+            let totalKullanilabilir = 0;
+            let totalBloke = 0;
+            
+            ekipler.forEach(ekip => {
+                const net = parseFloat(document.querySelector(`.net-input[data-ekip="${ekip}"]`).value) || 0;
+                const kullanilabilir = parseFloat(document.querySelector(`.kullanilabilir-input[data-ekip="${ekip}"]`).value) || 0;
+                const bloke = parseFloat(document.querySelector(`.bloke-input[data-ekip="${ekip}"]`).value) || 0;
+                
+                totalNet += net;
+                totalKullanilabilir += kullanilabilir;
+                totalBloke += bloke;
+            });
+            
+            // Toplamları göster
+            document.getElementById('totalNet').textContent = formatCurrency(totalNet);
+            document.getElementById('totalKullanilabilir').textContent = formatCurrency(totalKullanilabilir);
+            document.getElementById('totalBloke').textContent = formatCurrency(totalBloke);
+            
+            // Özet güncelle
+            updateSummary(totalNet, totalKullanilabilir, totalBloke);
+            
+            // Uyarıları kontrol et
+            checkWarnings(totalNet, totalBloke);
+        }
+
+        // Özeti güncelle
+        function updateSummary(totalNet, totalKullanilabilir, totalBloke) {
+            document.getElementById('summaryNet').textContent = formatCurrency(totalNet);
+            
+            const kullanilabilirOrani = totalNet > 0 ? (totalKullanilabilir / totalNet * 100) : 0;
+            const blokeOrani = totalNet > 0 ? (totalBloke / totalNet * 100) : 0;
+            
+            document.getElementById('summaryKullanilabilirOrani').textContent = `%${kullanilabilirOrani.toFixed(1)}`;
+            document.getElementById('summaryBlokeOrani').textContent = `%${blokeOrani.toFixed(1)}`;
+            
+            // Likidite durumu
+            let likidite = 'NORMAL';
+            let color = '#00b09b';
+            
+            if (blokeOrani > 30) {
+                likidite = 'RİSKLİ';
+                color = '#ff416c';
+            } else if (blokeOrani > 20) {
+                likidite = 'DİKKAT';
+                color = '#ffa500';
+            }
+            
+            document.getElementById('summaryLikidite').textContent = likidite;
+            document.getElementById('summaryLikidite').style.color = color;
+        }
+
+        // Uyarıları kontrol et
+        function checkWarnings(totalNet, totalBloke) {
+            const blokeOrani = totalNet > 0 ? (totalBloke / totalNet * 100) : 0;
+            
+            if (blokeOrani > 30) {
+                alert(`⚠️ UYARI: Bloke kasa oranı %${blokeOrani.toFixed(1)}! Likidite riski oluştu. Üst yönetime bildirin.`);
+            }
+        }
+
+        // Para birimi formatı
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('tr-TR', { 
+                style: 'currency', 
+                currency: 'TRY',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Raporu kaydet
+        function saveReport() {
+            calculateTotals();
+            
+            const tarih = document.getElementById('raporTarihi').value;
+            const saat = document.getElementById('raporSaati').value;
+            const hazirlayan = document.getElementById('hazirlayan').value;
+            const vardiya = document.getElementById('vardiya').value;
+            
+            let rapor = `KASA RAPORU\n`;
+            rapor += `=============\n`;
+            rapor += `Tarih: ${tarih}\n`;
+            rapor += `Saat (Devralma): ${saat}\n`;
+            rapor += `Hazırlayan: ${hazirlayan}\n`;
+            rapor += `Vardiya: ${vardiya === 'gunduz' ? 'Gündüz (08:00-20:00)' : 'Gece (20:00-08:00)'}\n`;
+            rapor += `\n`;
+            rapor += `Ekip Kasa Durumu:\n`;
+            rapor += `-----------------\n`;
+            
+            ekipler.forEach(ekip => {
+                const net = document.querySelector(`.net-input[data-ekip="${ekip}"]`).value || '0';
+                const kullanilabilir = document.querySelector(`.kullanilabilir-input[data-ekip="${ekip}"]`).value || '0';
+                const bloke = document.querySelector(`.bloke-input[data-ekip="${ekip}"]`).value || '0';
+                const aciklama = document.querySelector(`.aciklama-input[data-ekip="${ekip}"]`).value || '';
+                
+                rapor += `${ekip.padEnd(12)} | Net: ${net.padStart(10)} ₺ | Kullanılabilir: ${kullanilabilir.padStart(10)} ₺ | Bloke: ${bloke.padStart(10)} ₺ | ${aciklama}\n`;
+            });
+            
+            rapor += `\n`;
+            rapor += `TOPLAM:\n`;
+            rapor += `Net Kasa: ${document.getElementById('totalNet').textContent}\n`;
+            rapor += `Kullanılabilir: ${document.getElementById('totalKullanilabilir').textContent}\n`;
+            rapor += `Bloke: ${document.getElementById('totalBloke').textContent}\n`;
+            rapor += `Kullanılabilir Oranı: ${document.getElementById('summaryKullanilabilirOrani').textContent}\n`;
+            rapor += `Bloke Oranı: ${document.getElementById('summaryBlokeOrani').textContent}\n`;
+            rapor += `Likidite Durumu: ${document.getElementById('summaryLikidite').textContent}\n`;
+            rapor += `\n`;
+            rapor += `Not: ${new Date().toLocaleString('tr-TR')} tarihinde oluşturulmuştur.\n`;
+            
+            // Dosyayı indir
+            const blob = new Blob([rapor], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `kasa_raporu_${tarih}_${saat.replace(':', '')}.txt`;
+            link.click();
+            
+            alert('✅ Rapor başarıyla kaydedildi ve indirildi!');
+        }
+
+        // Formu temizle
+        function clearForm() {
+            if (confirm('Tüm veriler silinecek. Emin misiniz?')) {
+                document.getElementById('raporTarihi').value = '2026-04-21';
+                document.getElementById('raporSaati').value = '14:00';
+                document.getElementById('hazirlayan').value = 'Kevin X2';
+                document.getElementById('vardiya').value = 'gunduz';
+                
+                ekipler.forEach(ekip => {
+                    document.querySelector(`.net-input[data-ekip="${ekip}"]`).value = '';
+                    document.querySelector(`.kullanilabilir-input[data-ekip="${ekip}"]`).value = '';
+                    document.querySelector(`.bloke-input[data-ekip="${ekip}"]`).value = '';
+                    document.querySelector(`.aciklama-input[data-ekip="${ekip}"]`).value = '';
+                });
+                
+                calculateTotals();
+                alert('🗑️ Form temizlendi!');
+            }
+        }
+
+        // Sayfa yüklendiğinde tabloyu oluştur
+        document.addEventListener('DOMContentLoaded', function() {
+            createTable();
+            calculateTotals();
+            
+            // Bugünün tarihini ayarla
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('raporTarihi').value = today;
+            
+            // Şu anki saati ayarla
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('raporSaati').value = `${hours}:${minutes}`;
+        });
+    </script>
+</body>
+</html>
