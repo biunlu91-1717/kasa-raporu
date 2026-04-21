@@ -1,0 +1,51 @@
+# KASA RAPORU - BASİT METİN ŞABLONU
+# Tarih: ______________
+# Saat (Devralma): ______________
+# Hazırlayan: ______________
+# Vardiya: ☐ Gündüz (08:00-20:00) ☐ Gece (20:00-08:00)
+
+# AŞAĞIDAKİ TABLOYU KOPYALA/YAPIŞTIR - NOT DEFTERİNDE DOLDUR
+
+# Ekip Adı | Net Kasa (₺) | Kullanılabilir (₺) | Bloke (₺) | Açıklama
+berlin | | | |
+boca | | | |
+datça | | | |
+heaven | | | |
+kale | | | |
+lüksemburg | | | |
+mater | | | |
+mayk | | | |
+paris | | | |
+raptor | | | |
+rio | | | |
+suriçi | | | |
+suriçiv2 | | | |
+tokyo | | | |
+vadi | | | |
+şırnak | | | |
+
+# TOPLAMLARI MANUEL HESAPLA:
+# TOPLAM Net = hepsini topla
+# TOPLAM Kullanılabilir = hepsini topla  
+# TOPLAM Bloke = hepsini topla
+
+# KONTROL: Net = Kullanılabilir + Bloke (her ekip için)
+
+# ÖRNEK DOLDURULMUŞ SATIR:
+# berlin | 125000 | 100000 | 25000 | Normal
+
+# İŞLEM KAYIT FORMATI:
+# [SAAT] | [EKİP] | [İŞLEM] | [TUTAR ₺] | [REFERANS] | [AÇIKLAMA]
+# 14:30 | berlin | YATIRIM | 50000 | INV-001 | Müşteri: Ahmet Y.
+# 15:45 | boca | ÇEKİM | 25000 | WTH-001 | Müşteri: Mehmet K.
+
+# ACİL DURUMLAR:
+# - Çekim >100.000 ₺ → Üst onayı
+# - Bloke oranı >%30 → Likidite riski (yönetime bildir)
+# - Kasa uyuşmazlığı → Önceki raporla karşılaştır
+
+# RAPORU KAYDETMEK İÇİN:
+# 1. Bu şablonu kopyala
+# 2. Not defterine yapıştır
+# 3. Doldur
+# 4. "kasa_raporu_[TARİH]_[SAAT].txt" olarak kaydet
